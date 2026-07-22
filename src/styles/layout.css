@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+.app-layout{
+    @apply min-h-screen bg-blue-200;
+}
+.header{
+    @apply fixed top-0 left-0 right-0 h-16 bg-blue-500 text-white flex justify-between items-center px-8 shadow-md z-50;
+}
+.sidebar{
+    @apply fixed top-16 left-0 w-64 h-[calc(100vh-4rem)] bg-blue-300 border-r flex flex-col gap-2 p-5;
+}
+.sidebar a{
+    @apply px-4 py-3 rounded-lg transition;
+}
+.sidebar a.active{
+    @apply bg-blue-600 text-white;
+}
+.sidebar a:hover{
+    @apply bg-green-300;
+}
+.main-content{
+    @apply ml-64 mt-16 mb-12 p-8 min-h-[calc(100vh-7rem)];
+}
+.footer{
+    @apply fixed bottom-0 left-64 right-0 h-12 bg-blue-200 border-t flex items-center justify-center;
+}
+.logout-btn{
+    @apply bg-red-300 hover:bg-red-400 px-4 py-2 rounded-lg hover:cursor-pointer active:bg-red-500;
+}

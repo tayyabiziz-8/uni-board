@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+/* Enable the `dark:` variant based on the .dark class */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Optional: default page transition */
+html,
+body {
+    transition:
+        background-color 300ms ease,
+        color 300ms ease;
+}
