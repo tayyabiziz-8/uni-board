@@ -19,7 +19,9 @@ Currently, admin dashboard is the most developed with
 
 ### Installations
 
-'''npm install react-router-dom'''
+'''
+    npm install react-router-dom
+'''
 '''npm install @mui/material @mui/icons-material'''
 '''npm install react-icons'''
 '''npm install recharts'''
