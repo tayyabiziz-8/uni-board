@@ -4,7 +4,7 @@ export default function PageTitle({ title }) {
 
         <div className="mb-8">
 
-            <h1 className="text-4xl font-bold">
+            <h1 className="text-4xl font-bold dark:text-zinc-300">
 
                 {title}
 

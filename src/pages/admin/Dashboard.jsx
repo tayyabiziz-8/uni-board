@@ -48,7 +48,7 @@ export default function Dashboard() {
         <div className="space-y-6">
 
             <div>
-                <h1 className="text-3xl font-bold text-zinc-800">
+                <h1 className="text-3xl font-bold text-zinc-800 dark:text-zinc-200">
                     Admin Dashboard
                 </h1>
                 <p className="text-zinc-500 mt-1">
@@ -95,8 +95,8 @@ export default function Dashboard() {
 
             <section className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
-                <div className="bg-white border border-zinc-200 rounded-md shadow-sm p-5">
-                    <h2 className="font-semibold text-zinc-700">
+                <div className="bg-white border border-zinc-200 rounded-md shadow-sm p-5 dark:bg-zinc-700 dark:border-zinc-500">
+                    <h2 className="font-semibold text-zinc-700 dark:text-zinc-300">
                         Current Semester
                     </h2>
                     <p className="text-2xl font-bold mt-4">
@@ -107,8 +107,8 @@ export default function Dashboard() {
                     </p>
                 </div>
 
-                <div className="bg-white border border-zinc-200 rounded-md shadow-sm p-5">
-                    <h2 className="font-semibold text-zinc-700">
+                <div className="bg-white border border-zinc-200 rounded-md shadow-sm p-5 dark:bg-zinc-700 dark:border-zinc-500">
+                    <h2 className="font-semibold text-zinc-700 dark:text-zinc-300">
                         Attendance
                     </h2>
                     <p className="text-2xl font-bold mt-4">
@@ -119,8 +119,8 @@ export default function Dashboard() {
                     </p>
                 </div>
 
-                <div className="bg-white border border-zinc-200 rounded-md shadow-sm p-5">
-                    <h2 className="font-semibold text-zinc-700">
+                <div className="bg-white border border-zinc-200 rounded-md shadow-sm p-5 dark:bg-zinc-700 dark:border-zinc-500">
+                    <h2 className="font-semibold text-zinc-700 dark:text-zinc-300">
                         Pending Requests
                     </h2>
                     <p className="text-2xl font-bold mt-4">
@@ -132,10 +132,10 @@ export default function Dashboard() {
                 </div>
             </section>
 
-            <section className="bg-white border border-zinc-200 rounded-md shadow-sm p-5">
+            <section className="bg-white border border-zinc-200 rounded-md shadow-sm p-5 dark:bg-zinc-700 dark:border-zinc-500">
                 <div className="flex justify-between items-center mb-5">
                     <div>
-                        <h2 className="text-xl font-semibold text-zinc-800">
+                        <h2 className="text-xl font-semibold text-zinc-800 dark:text-zinc-300">
                             Recent Users
                         </h2>
                         <p className="text-sm text-zinc-500">
@@ -151,7 +151,7 @@ export default function Dashboard() {
                 <div className="overflow-x-auto">
                     <table className="min-w-full">
                         <thead>
-                            <tr className="border-b text-left text-zinc-500 text-sm">
+                            <tr className="border-b text-left text-zinc-500 text-sm dark:text-zinc-300">
                                 <th className="py-3 px-4">
                                     ID
                                 </th>
@@ -172,7 +172,7 @@ export default function Dashboard() {
 
                         <tbody>
                             {recentUsers.map((user) => (
-                                <tr key={user.id} className="border-b hover:bg-zinc-50 transition">
+                                <tr key={user.id} className="border-b hover:bg-zinc-50 transition dark:hover:bg-zinc-800">
 
                                     <td className="px-4 py-4">
                                         {user.id}

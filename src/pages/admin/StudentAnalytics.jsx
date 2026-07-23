@@ -102,7 +102,7 @@ export default function StudentAnalytics() {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-3xl font-bold text-zinc-800">
+                <h1 className="text-3xl font-bold text-zinc-800 dark:text-zinc-200">
                     Student Analytics
                 </h1>
                 <p className="text-zinc-500 mt-1">
@@ -198,7 +198,7 @@ export default function StudentAnalytics() {
                 </ChartCard>
             </section>
 
-            <section className="bg-white border border-zinc-200 rounded-md shadow-sm p-5">
+            <section className="bg-white border border-zinc-200 rounded-md shadow-sm p-5 dark:bg-zinc-700 dark:border-zinc-500">
                 <div className="flex justify-between items-center mb-5">
                     <div>
                         <h2 className="text-xl font-semibold">
@@ -227,7 +227,7 @@ export default function StudentAnalytics() {
                             {recentAdmissions.map(student => (
                                 <tr
                                     key={student.id}
-                                    className="border-b hover:bg-zinc-50 dark:hover:bg-zinc-700"
+                                    className="border-b hover:bg-zinc-50 dark:hover:bg-zinc-800"
                                 >
                                     <td className="px-4 py-4">
                                         {student.id}

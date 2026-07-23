@@ -61,7 +61,7 @@ export default function TeacherAnalytics() {
         <div className="space-y-6">
             <div>
 
-                <h1 className="text-3xl font-bold text-zinc-800">
+                <h1 className="text-3xl font-bold text-zinc-800 dark:text-zinc-200">
                     Teacher Analytics
                 </h1>
 
@@ -146,7 +146,7 @@ export default function TeacherAnalytics() {
                 </ChartCard>
             </section>
 
-            <section className="bg-white border border-zinc-200 rounded-md shadow-sm p-5">
+            <section className="bg-white border border-zinc-200 rounded-md shadow-sm p-5 dark:bg-zinc-700 dark:border-zinc-500">
 
                 <h2 className="text-xl font-semibold mb-4">
                     Top Faculty Members
@@ -155,7 +155,7 @@ export default function TeacherAnalytics() {
                 <div className="overflow-x-auto">
                     <table className="min-w-full">
                         <thead>
-                            <tr className="border-b text-left">
+                            <tr className="border-b text-left text-zinc-700 dark:text-zinc-300">
                                 <th className="px-4 py-3">Name</th>
                                 <th className="px-4 py-3">Department</th>
                                 <th className="px-4 py-3">Courses</th>
@@ -167,7 +167,7 @@ export default function TeacherAnalytics() {
                             {teachers.map((teacher) => (
                                 <tr
                                     key={teacher.id}
-                                    className="border-b hover:bg-zinc-50"
+                                    className="border-b hover:bg-zinc-50 dark:hover:bg-zinc-800"
                                 >
 
                                     <td className="px-4 py-4">
