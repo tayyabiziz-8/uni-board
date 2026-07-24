@@ -17,24 +17,18 @@ Currently, admin dashboard is the most developed with
 - React-router
 - Recharts
 
-### Installations
+### Commands to run after cloning
 
 ```
-npm install react-router-dom
-```
-
-```
-npm install @mui/material @mui/icons-material
+npm install
 ```
 
 ```
-npm install react-icons
+npm run dev
 ```
 
-```
-npm install recharts
-```
+and you're good to go.
 
 
 
-Note: Dark mode is WIP.
+### Note: Dark mode is WIP.
