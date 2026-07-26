@@ -21,6 +21,10 @@ import Settings from "./pages/admin/Settings";
 import TeacherAnalytics from "./pages/admin/TeacherAnalytics";
 import StudentAnalytics from "./pages/admin/StudentAnalytics";
 import ManageReports from "./pages/admin/ManageReports";
+import AdminCourses from "./pages/admin/Courses";
+import Departments from "./pages/admin/Departments";
+import Admissions from "./pages/admin/Admissions";
+import Announcements from "./pages/admin/Announcements";
 
 function HomeRedirect() {
 
@@ -73,7 +77,11 @@ export default function App() {
                     <Route path="/admin/teachers" element={<TeacherAnalytics />} />
                     <Route path="/admin/students" element={<StudentAnalytics />} />
                     <Route path="/admin/reports" element={<ManageReports />} />
-                    
+                    <Route path="/admin/courses" element={<AdminCourses />} />
+                    <Route path="/admin/departments" element={<Departments />} />
+                    <Route path="/admin/admissions" element={<Admissions />} />
+                    <Route path="/admin/announcements" element={<Announcements />} />
+
                 </Route>
             </Route>
         </Routes>

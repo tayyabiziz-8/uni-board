@@ -3,10 +3,65 @@
 /* Enable the `dark:` variant based on the .dark class */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Optional: default page transition */
+/* ============================================
+   Design tokens — modeled on the "Many Parts"
+   reference: warm cream light mode, deep navy
+   dark mode, single terracotta/rust accent.
+   ============================================ */
+:root {
+    --bg-app: #f7f4ee;
+    --bg-sidebar: #fbf8f2;
+    --bg-card: #ffffff;
+    --bg-card-hover: #faf7f1;
+    --bg-subtle: #f1ece1;
+
+    --border-color: #e9e2d3;
+    --border-strong: #dcd3bf;
+
+    --text-primary: #292118;
+    --text-secondary: #86786a;
+    --text-muted: #a89c8a;
+
+    --accent: #c2622d;
+    --accent-hover: #a84f22;
+    --accent-soft: #f3e2d3;
+    --accent-soft-text: #a24f22;
+
+    --sidebar-w: 16rem;
+    --sidebar-w-collapsed: 5rem;
+}
+
+.dark {
+    --bg-app: #0b101d;
+    --bg-sidebar: #0a0e1a;
+    --bg-card: #121a2c;
+    --bg-card-hover: #16203590;
+    --bg-subtle: #182136;
+
+    --border-color: #232c44;
+    --border-strong: #2c3652;
+
+    --text-primary: #f1eee6;
+    --text-secondary: #98a2b8;
+    --text-muted: #6b7690;
+
+    --accent: #d97740;
+    --accent-hover: #e88a54;
+    --accent-soft: #3a2517;
+    --accent-soft-text: #e8a97c;
+}
+
 html,
 body {
+    background-color: var(--bg-app);
     transition:
         background-color 300ms ease,
-        color 300ms ease;
+        color 300ms ease,
+        border-color 300ms ease;
+}
+
+/* Thin, unobtrusive scrollbars that match the theme */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
 }

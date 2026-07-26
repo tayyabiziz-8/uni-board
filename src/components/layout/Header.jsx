@@ -1,56 +1,92 @@
+import { useState, useRef, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserProvider";
-import { FaMoon, FaSun, FaBars } from "react-icons/fa";
+import { FaMoon, FaSun, FaBars, FaChevronDown, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { useTheme } from "../../context/ThemeProvider";
 
-export default function Header({ sidebarOpen, setSidebarOpen})
-{
+export default function Header({ sidebarOpen, setSidebarOpen, collapsed, setCollapsed }) {
     const navigate = useNavigate();
-    const {user, logout} = useUserContext();
+    const { user, logout } = useUserContext();
     const { darkMode, toggleTheme } = useTheme();
+    const [menuOpen, setMenuOpen] = useState(false);
+    const menuRef = useRef(null);
+
+    useEffect(() => {
+        function handleClickOutside(e) {
+            if (menuRef.current && !menuRef.current.contains(e.target)) {
+                setMenuOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     function handleLogout() {
-
         logout();
         navigate("/login");
     }
 
     return (
-
-        <header className="fixed top-0 left-0 right-0 h-16 bg-zinc-800 text-white shadow-sm z-50">
-
+        <header className="fixed top-0 left-0 right-0 h-16 bg-(--bg-card) border-b border-(--border-color) text-(--text-primary) z-50">
             <div className="h-full flex items-center justify-between px-5">
-
                 <div className="flex items-center gap-4">
-
-                    <button className="md:hidden text-xl hover:cursor-pointer active:bg-amber-600" onClick={() => setSidebarOpen(!sidebarOpen)}>
+                    <button
+                        className="md:hidden text-xl p-1 rounded hover:bg-(--bg-subtle) transition"
+                        onClick={() => setSidebarOpen(!sidebarOpen)}
+                    >
                         <FaBars />
                     </button>
 
-                    <NavLink to="/admin" className="font-semibold text-lg hover:cursor-pointer ml-7 max-md:ml-0">
+                    <button
+                        className="hidden md:inline-flex text-lg p-2 rounded-md hover:bg-(--bg-subtle) transition"
+                        onClick={() => setCollapsed(!collapsed)}
+                        title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                    >
+                        <FaBars />
+                    </button>
+
+                    <NavLink to="/" className="font-semibold text-lg">
                         University Portal
                     </NavLink>
                 </div>
 
-                <div className="flex items-center gap-5">
-                    <button onClick={toggleTheme}
-                            className="p-2 rounded hover:bg-zinc-200 dark:hover:bg-zinc-700 transition">
-                        {
-                            darkMode
-                            ?
-                            <FaSun />
-                            :
-                            <FaMoon />
-                        }
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={toggleTheme}
+                        className="p-2 rounded-full hover:bg-(--bg-subtle) transition"
+                        title="Toggle theme"
+                    >
+                        {darkMode ? <FaSun /> : <FaMoon />}
                     </button>
-                    <div className="hidden sm:block">
-                        {user?.name}
-                    </div>
 
-                    <button onClick={handleLogout} 
-                    className="bg-orange-700 hover:bg-orange-600 px-4 py-2 rounded transition">
-                        Logout
-                    </button>
+                    <div className="relative" ref={menuRef}>
+                        <button
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            className="flex items-center gap-2 pl-1 pr-3 py-1.5 rounded-full hover:bg-(--bg-subtle) transition"
+                        >
+                            <FaUserCircle className="text-2xl text-(--text-secondary)" />
+                            <span className="hidden sm:block text-sm font-medium">
+                                {user?.name ?? "Super Admin"}
+                            </span>
+                            <FaChevronDown className="text-xs text-(--text-secondary)" />
+                        </button>
+
+                        {menuOpen && (
+                            <div
+                                className="absolute right-0 mt-2 w-48 rounded-lg border border-(--border-color)
+                                bg-(--bg-card) shadow-lg overflow-hidden"
+                            >
+                                <button
+                                    onClick={handleLogout}
+                                    className="w-full flex items-center gap-2 px-4 py-3 text-sm text-left
+                                    text-(--text-primary) hover:bg-(--bg-subtle) transition"
+                                >
+                                    <FaSignOutAlt className="text-(--accent)" />
+                                    Logout
+                                </button>
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
         </header>

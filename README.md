@@ -6,7 +6,7 @@ A university dashboard *Template* with 3 different users
 - Admin
 
 Currently, admin dashboard is the most developed with
-- Teacher and Student Analytics
+- Multiple Pages
 - Graphs and Charts (made on dummy data)
 
 ## Tech Stack & Libraries
@@ -28,7 +28,3 @@ npm run dev
 ```
 
 and you're good to go.
-
-
-
-### Note: Dark mode is WIP.

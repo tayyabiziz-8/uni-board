@@ -1,34 +1,70 @@
 import { NavLink } from "react-router-dom";
-import { FaHome, FaBook, FaClipboardList, FaUser, FaUsers, FaChartBar, FaCog } from "react-icons/fa";
+import {
+    FaHome,
+    FaBook,
+    FaClipboardList,
+    FaUser,
+    FaUsers,
+    FaChartBar,
+    FaChevronLeft,
+    FaChevronRight,
+    FaChalkboardTeacher,
+    FaUserGraduate,
+    FaCog,
+    FaFileAlt,
+    FaBuilding,
+    FaUserPlus,
+    FaBullhorn,
+} from "react-icons/fa";
 import { useUserContext } from "../../context/UserProvider";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useState } from "react";
 
-export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
+export default function Sidebar({ sidebarOpen, setSidebarOpen, collapsed, setCollapsed }) {
     const { user } = useUserContext();
-    const [expanded, setExpanded] = useState(false);
-    const handleAccordionChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
-    };
-
     const role = user?.role;
 
-    const linkClass = ({ isActive }) =>
-        `flex items-center gap-3 px-4 py-3 rounded transition-colors 
-        ${
-            isActive
-                ? "bg-orange-700 text-white"
-                : "text-zinc-200 hover:bg-zinc-700"
-        }`;
+    const navByRole = {
+        student: [
+            { to: "/student", end: true, label: "Dashboard", icon: FaHome },
+            { to: "/student/courses", label: "Courses", icon: FaBook },
+            { to: "/student/assignments", label: "Assignments", icon: FaClipboardList },
+            { to: "/student/profile", label: "Profile", icon: FaUser },
+        ],
+        teacher: [
+            { to: "/teacher", end: true, label: "Dashboard", icon: FaHome },
+            { to: "/teacher/students", label: "Students", icon: FaUsers },
+            { to: "/teacher/grades", label: "Grades", icon: FaChartBar },
+            { to: "/teacher/profile", label: "Profile", icon: FaUser },
+        ],
+        admin: [
+            { to: "/admin", end: true, label: "Dashboard", icon: FaHome },
+            { to: "/admin/students", label: "Student Analytics", icon: FaUserGraduate },
+            { to: "/admin/teachers", label: "Teacher Analytics", icon: FaChalkboardTeacher },
+            { to: "/admin/courses", label: "Courses", icon: FaBook },
+            { to: "/admin/departments", label: "Departments", icon: FaBuilding },
+            { to: "/admin/admissions", label: "Admissions", icon: FaUserPlus },
+            { to: "/admin/announcements", label: "Announcements", icon: FaBullhorn },
+            { to: "/admin/users", label: "Manage Users", icon: FaUsers },
+            { to: "/admin/reports", label: "Manage Reports", icon: FaFileAlt },
+            { to: "/admin/settings", label: "Settings", icon: FaCog },
+        ],
+    };
+
+    const items = navByRole[role] ?? [];
 
     const closeSidebar = () => {
         if (window.innerWidth < 768) {
             setSidebarOpen(false);
         }
     };
+
+    const linkClass = ({ isActive }) =>
+        `group relative flex items-center gap-3 rounded-lg transition-colors
+        ${collapsed ? "justify-center px-0 py-3" : "px-4 py-3"}
+        ${
+            isActive
+                ? "bg-[var(--accent)] text-white"
+                : "text-[var(--text-secondary)] hover:bg-[var(--bg-subtle)] hover:text-[var(--text-primary)]"
+        }`;
 
     return (
         <>
@@ -40,198 +76,42 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen }) {
             )}
 
             <aside
-                className={` fixed top-16 left-0 h-[calc(100vh-64px)] max-md:h-72 w-64
-                    bg-zinc-900 border-r border-zinc-800
-                    z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto
-                    ${
-                        sidebarOpen
-                            ? "translate-x-0"
-                            : "-translate-x-full"
-                    }
+                className={`fixed top-16 left-0 h-[calc(100vh-64px)] max-md:h-[calc(100vh-64px)]
+                    bg-(--bg-sidebar) border-r border-(--border-color)
+                    z-50 flex flex-col transform transition-all duration-300 ease-in-out overflow-x-hidden overflow-y-auto
+                    ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
                     md:translate-x-0
+                    ${collapsed ? "w-20" : "w-64"}
                 `}
             >
-                <div className="flex flex-col p-4 gap-2">
-
-                    {role === "student" && (
-                        <>
-                            <NavLink
-                                to="/student"
-                                end
-                                className={linkClass}
-                                onClick={closeSidebar}
-                            >
-                                <FaHome />
-                                <span>Dashboard</span>
-                            </NavLink>
-
-                            <NavLink
-                                to="/student/courses"
-                                className={linkClass}
-                                onClick={closeSidebar}
-                            >
-                                <FaBook />
-                                <span>Courses</span>
-                            </NavLink>
-
-                            <NavLink
-                                to="/student/assignments"
-                                className={linkClass}
-                                onClick={closeSidebar}
-                            >
-                                <FaClipboardList />
-                                <span>Assignments</span>
-                            </NavLink>
-
-                            <NavLink
-                                to="/student/profile"
-                                className={linkClass}
-                                onClick={closeSidebar}
-                            >
-                                <FaUser />
-                                <span>Profile</span>
-                            </NavLink>
-                        </>
-                    )}
-
-                    {role === "teacher" && (
-                        <>
-                            <NavLink
-                                to="/teacher"
-                                end
-                                className={linkClass}
-                                onClick={closeSidebar}
-                            >
-                                <FaHome />
-                                <span>Dashboard</span>
-                            </NavLink>
-
-                            <NavLink
-                                to="/teacher/students"
-                                className={linkClass}
-                                onClick={closeSidebar}
-                            >
-                                <FaUsers />
-                                <span>Students</span>
-                            </NavLink>
-
-                            <NavLink
-                                to="/teacher/grades"
-                                className={linkClass}
-                                onClick={closeSidebar}
-                            >
-                                <FaChartBar />
-                                <span>Grades</span>
-                            </NavLink>
-
-                            <NavLink
-                                to="/teacher/profile"
-                                className={linkClass}
-                                onClick={closeSidebar}
-                            >
-                                <FaUser />
-                                <span>Profile</span>
-                            </NavLink>
-                        </>
-                    )}
-
-                    {role === "admin" && (
-                        <>
-                            <Accordion
-                                expanded={expanded === "dashboard"}
-                                onChange={handleAccordionChange("dashboard")}
-                                disableGutters
-                                elevation={0}
-                                sx={{
-                                    backgroundColor: "#18181b",
-                                    color: "white",
-                                    "&:before": {
-                                        display: "none",
-                                    },
-                                }}
-                            >
-
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <FaHome />
-                                        Dashboard
-                                    </div>
-                                </AccordionSummary>
-
-                                <AccordionDetails
-                                    className="flex flex-col gap-2"
-                                >
-                                    <NavLink
-                                        to="/admin/teachers"
-                                        className={linkClass}
-                                        onClick={closeSidebar}
-                                    >
-                                        Teachers
-                                    </NavLink>
-                                    <NavLink
-                                        to="/admin/students"
-                                        className={linkClass}
-                                        onClick={closeSidebar}
-                                    >
-                                        Students
-                                    </NavLink>
-                                </AccordionDetails>
-                            </Accordion>
-                            <NavLink
-                                to="/admin/users"
-                                className={linkClass}
-                                onClick={closeSidebar}
-                            >
-                                <FaUsers />
-                                Manage Users
-                            </NavLink>
-
-                            <Accordion
-                                expanded={expanded === "profile"}
-                                onChange={handleAccordionChange("profile")}
-                                disableGutters
-                                elevation={0}
-                                sx={{
-                                    backgroundColor: "#18181b",
-                                    color: "white",
-                                    "&:before": {
-                                        display: "none",
-                                    },
-                                }}
-                            >
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <FaUser />
-                                        Profile
-                                    </div>
-                                </AccordionSummary>
-
-                                <AccordionDetails
-                                    className="flex flex-col gap-2"
-                                >
-                                    <NavLink
-                                        to="/admin/settings"
-                                        className={linkClass}
-                                        onClick={closeSidebar}
-                                    >
-                                        Settings
-                                    </NavLink>
-                                    <NavLink
-                                        to="/admin/reports"
-                                        className={linkClass}
-                                        onClick={closeSidebar}
-                                    >
-                                        Manage Reports
-                                    </NavLink>
-                                </AccordionDetails>
-                            </Accordion>
-                        </>
-                    )}
+                <div className={`hidden md:flex items-center p-3 ${collapsed ? "justify-center" : "justify-end"}`}>
+                    <button
+                        onClick={() => setCollapsed(!collapsed)}
+                        className="p-2 rounded-md text-(--text-secondary) hover:bg-(--bg-subtle) hover:text-(--text-primary) transition"
+                        title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+                    >
+                        {collapsed ? <FaChevronRight size={14} /> : <FaChevronLeft size={14} />}
+                    </button>
                 </div>
+
+                <nav className="flex flex-col gap-1.5 p-3 pt-0">
+                    {items.map(({ to, end, label, icon: Icon }) => (
+                        <NavLink key={to} to={to} end={end} className={linkClass} onClick={closeSidebar} title={collapsed ? label : undefined}>
+                            <Icon className="text-base shrink-0" />
+                            {!collapsed && <span className="text-sm font-medium truncate">{label}</span>}
+
+                            {collapsed && (
+                                <span
+                                    className="pointer-events-none absolute left-full ml-3 whitespace-nowrap rounded-md bg-(--bg-card)
+                                    border border-(--border-color) px-2.5 py-1.5 text-xs font-medium text-(--text-primary)
+                                    opacity-0 shadow-md group-hover:opacity-100 transition-opacity z-50"
+                                >
+                                    {label}
+                                </span>
+                            )}
+                        </NavLink>
+                    ))}
+                </nav>
             </aside>
         </>
     );

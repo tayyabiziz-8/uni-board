@@ -11,7 +11,8 @@ body {
         Inter,
         "Segoe UI",
         sans-serif;
-    background: #f4f4f5;
+    background: var(--bg-app);
+    color: var(--text-primary);
 }
 
 * {
@@ -24,13 +25,14 @@ button {
 
 ::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #a1a1aa;
+    background: var(--border-strong);
     border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #71717a;
+    background: var(--accent);
 }

@@ -1,29 +1,113 @@
 @import "tailwindcss";
 
-.app-layout{
-    @apply min-h-screen bg-blue-200;
+.app-layout {
+    min-height: 100vh;
+    background: var(--bg-app);
 }
-.header{
-    @apply fixed top-0 left-0 right-0 h-16 bg-blue-500 text-white flex justify-between items-center px-8 shadow-md z-50;
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4rem;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    z-index: 50;
 }
-.sidebar{
-    @apply fixed top-16 left-0 w-64 h-[calc(100vh-4rem)] bg-blue-300 border-r flex flex-col gap-2 p-5;
+
+.sidebar {
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    width: var(--sidebar-w);
+    height: calc(100vh - 4rem);
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem;
+    transition: width 250ms ease;
 }
-.sidebar a{
-    @apply px-4 py-3 rounded-lg transition;
+
+.sidebar.collapsed {
+    width: var(--sidebar-w-collapsed);
 }
-.sidebar a.active{
-    @apply bg-blue-600 text-white;
+
+.sidebar a {
+    padding: 0.75rem 1rem;
+    border-radius: 0.6rem;
+    transition: background-color 150ms ease, color 150ms ease;
+    color: var(--text-secondary);
 }
-.sidebar a:hover{
-    @apply bg-green-300;
+
+.sidebar a.active {
+    background: var(--accent);
+    color: #ffffff;
 }
-.main-content{
-    @apply ml-64 mt-16 mb-12 p-8 min-h-[calc(100vh-7rem)];
+
+.sidebar a:hover:not(.active) {
+    background: var(--bg-subtle);
+    color: var(--text-primary);
 }
-.footer{
-    @apply fixed bottom-0 left-64 right-0 h-12 bg-blue-200 border-t flex items-center justify-center;
+
+.main-content {
+    margin-left: var(--sidebar-w);
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+    padding: 2rem;
+    min-height: calc(100vh - 7rem);
+    transition: margin-left 250ms ease;
 }
-.logout-btn{
-    @apply bg-red-300 hover:bg-red-400 px-4 py-2 rounded-lg hover:cursor-pointer active:bg-red-500;
+
+.main-content.collapsed {
+    margin-left: var(--sidebar-w-collapsed);
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: var(--sidebar-w);
+    right: 0;
+    height: 3rem;
+    background: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    transition: left 250ms ease;
+}
+
+.footer.collapsed {
+    left: var(--sidebar-w-collapsed);
+}
+
+.logout-btn {
+    background: var(--accent);
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 150ms ease;
+}
+
+.logout-btn:hover {
+    background: var(--accent-hover);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: var(--sidebar-w);
+    }
+    .main-content,
+    .footer {
+        margin-left: 0;
+        left: 0;
+    }
 }
