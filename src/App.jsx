@@ -34,7 +34,6 @@ function HomeRedirect() {
         return <Navigate to="/login" replace />;
 
     return <Navigate to={`/${user.role}`} replace />;
-
 }
 
 export default function App() {
@@ -44,11 +43,8 @@ export default function App() {
         <Routes>
 
             <Route path="/" element={<HomeRedirect />} />
-
             <Route path="/login" element={<Login />} />
-
             <Route path="/unauthorized" element={<Unauthorized />} />
-
             <Route element={<BaseLayout />}>
 
                 <Route element={<ProtectedRoute allowedRoles={["student"]} />}>

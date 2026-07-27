@@ -3,6 +3,8 @@ import { FaUsers, FaUserGraduate, FaChalkboardTeacher, FaUserShield, FaPlus, FaS
 import StatCard from "../../components/ui/StatCard";
 import StatusBadge from "../../components/ui/StatusBadge";
 import useDebounce from "../../hooks/useDebounce";
+import { useQuery } from '@tanstack/react-query'
+import getUsers from '../../api/api'
 
 const users = [
     { id: 1001, name: "Ali Hassan", email: "ali.hassan@itu.edu", role: "Student", department: "Computer Science", status: "Active" },

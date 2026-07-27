@@ -7,6 +7,7 @@ import UserProvider from "./context/UserProvider";
 import ThemeProvider from "./context/ThemeProvider";
 import "./styles/theme.css";
 
+
 ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
         <ThemeProvider>

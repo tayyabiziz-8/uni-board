@@ -3,11 +3,6 @@
 /* Enable the `dark:` variant based on the .dark class */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ============================================
-   Design tokens — modeled on the "Many Parts"
-   reference: warm cream light mode, deep navy
-   dark mode, single terracotta/rust accent.
-   ============================================ */
 :root {
     --bg-app: #f7f4ee;
     --bg-sidebar: #fbf8f2;
@@ -60,7 +55,6 @@ body {
         border-color 300ms ease;
 }
 
-/* Thin, unobtrusive scrollbars that match the theme */
 * {
     scrollbar-width: thin;
     scrollbar-color: var(--border-strong) transparent;

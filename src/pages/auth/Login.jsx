@@ -23,11 +23,10 @@ export default function Login() {
             >
                 <div className="max-w-md">
                     <h2 className="text-4xl font-bold text-white leading-tight mb-6">
-                        One Portal for Every Department
+                        One Portal for All
                     </h2>
                     <p className="text-white/90 text-lg leading-relaxed">
-                        "The University Portal brings students, faculty and administration onto a single,
-                        reliable platform. Built for a university that never stops growing."
+                        A single, reliable platform built for a university that never stops growing.
                     </p>
                 </div>
             </div>

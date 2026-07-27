@@ -4,7 +4,7 @@ const data = [
 
     {
         month: "Jan",
-        students: 180
+        students: 190
     },
     {
         month: "Feb",
@@ -25,7 +25,15 @@ const data = [
     {
         month: "Jun",
         students: 590
-    }
+    },
+    {
+        month: "Jul",
+        students: 520
+    },
+    {
+        month: "Aug",
+        students: 610
+    },
 ];
 
 export default function EnrollmentChart() {
