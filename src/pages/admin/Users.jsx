@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaUsers, FaUserGraduate, FaChalkboardTeacher, FaUserShield, FaPlus, FaSearch } from "react-icons/fa";
 import StatCard from "../../components/ui/StatCard";
 import StatusBadge from "../../components/ui/StatusBadge";
+import useDebounce from "../../hooks/useDebounce";
 
 const users = [
     { id: 1001, name: "Ali Hassan", email: "ali.hassan@itu.edu", role: "Student", department: "Computer Science", status: "Active" },
@@ -11,7 +12,17 @@ const users = [
     { id: 1005, name: "Hamza Ali", email: "hamza.ali@itu.edu", role: "Student", department: "Information Technology", status: "Inactive" },
     { id: 1006, name: "Dr. Saud Ahmad", email: "saud.ahmad@itu.edu", role: "Admin", department: "Finance & Economics", status: "Active" },
     { id: 1007, name: "Sara Malik", email: "sara.malik@itu.edu", role: "Student", department: "Software Engineering", status: "Active" },
-    { id: 1008, name: "Usman Tariq", email: "usman.tariq@itu.edu", role: "Teacher", department: "Computer Science", status: "Pending" },
+    { id: 1008, name: "Usman Tariq", email: "usman.tariq@itu.edu", role: "Teacher", department: "Information Technology", status: "Pending" },
+    { id: 1009, name: "Zara Sheikh", email: "zara.sheikh@itu.edu", role: "Student", department: "Data Science", status: "Active" },
+    { id: 1010, name: "Hina Yousuf", email: "hina.yousuf@itu.edu", role: "Teacher", department: "Computer Science", status: "Active" },
+    { id: 1011, name: "Omar Farooq", email: "omar.farooq@itu.edu", role: "Student", department: "Artificial Intelligence", status: "Pending" },
+    { id: 1012, name: "Rabia Farooq", email: "rabia.farooq@itu.edu", role: "Teacher", department: "Information Technology", status: "Active" },
+    { id: 1013, name: "Mariam Yasin", email: "mariam.yasin@itu.edu", role: "Teacher", department: "Artificial Intelligence", status: "Active" },
+    { id: 1014, name: "Talha Iqbal", email: "talha.iqbal@itu.edu", role: "Student", department: "Computer Science", status: "Inactive" },
+    { id: 1015, name: "Kamran Sheikh", email: "kamran.sheikh@itu.edu", role: "Teacher", department: "Software Engineering", status: "Active" },
+    { id: 1016, name: "Areeba Malik", email: "areeba.malik@itu.edu", role: "Admin", department: "Registrar's Office", status: "Active" },
+    { id: 1017, name: "Taha Raza", email: "taha.raza@itu.edu", role: "Student", department: "Software Engineering", status: "Active" },
+    { id: 1018, name: "Mahnoor Iqbal", email: "mahnoor.iqbal@itu.edu", role: "Student", department: "Data Science", status: "Pending" },
 ];
 
 const roleTabs = ["All", "Student", "Teacher", "Admin"];
@@ -19,10 +30,13 @@ const roleTabs = ["All", "Student", "Teacher", "Admin"];
 export default function Users() {
     const [activeTab, setActiveTab] = useState("All");
     const [query, setQuery] = useState("");
+    const debouncedQuery = useDebounce(query, 700);
 
     const filtered = users.filter((u) => {
         const matchesRole = activeTab === "All" || u.role === activeTab;
-        const matchesQuery = u.name.toLowerCase().includes(query.toLowerCase()) || u.email.toLowerCase().includes(query.toLowerCase());
+        const matchesQuery =
+            u.name.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
+            u.email.toLowerCase().includes(debouncedQuery.toLowerCase());
         return matchesRole && matchesQuery;
     });
 
@@ -41,10 +55,10 @@ export default function Users() {
             </div>
 
             <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-                <StatCard title="Total Users" value="2,702" subtitle="All accounts" icon={FaUsers} color="rust" />
-                <StatCard title="Students" value="2,540" subtitle="Enrolled accounts" icon={FaUserGraduate} color="blue" />
-                <StatCard title="Teachers" value="154" subtitle="Active faculty" icon={FaChalkboardTeacher} color="amber" />
-                <StatCard title="Admins" value="8" subtitle="System administrators" icon={FaUserShield} color="teal" />
+                <StatCard title="Total Users" value={users.length} subtitle="All accounts" icon={FaUsers} color="rust" />
+                <StatCard title="Students" value={users.filter((u) => u.role === "Student").length} subtitle="Enrolled accounts" icon={FaUserGraduate} color="blue" />
+                <StatCard title="Teachers" value={users.filter((u) => u.role === "Teacher").length} subtitle="Active faculty" icon={FaChalkboardTeacher} color="amber" />
+                <StatCard title="Admins" value={users.filter((u) => u.role === "Admin").length} subtitle="System administrators" icon={FaUserShield} color="teal" />
             </section>
 
             <section className="bg-(--bg-card) border border-(--border-color) rounded-xl shadow-sm p-5">
