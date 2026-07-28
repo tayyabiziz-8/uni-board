@@ -1,46 +1,37 @@
 import { useState } from "react";
-import { FaUsers, FaUserGraduate, FaChalkboardTeacher, FaUserShield, FaPlus, FaSearch } from "react-icons/fa";
+import { FaUsers, FaPlus, FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import StatCard from "../../components/ui/StatCard";
 import StatusBadge from "../../components/ui/StatusBadge";
 import useDebounce from "../../hooks/useDebounce";
-import { useQuery } from '@tanstack/react-query'
-import getUsers from '../../api/api'
+import { useUsersQuery } from "../../hooks/queries";
 
-const users = [
-    { id: 1001, name: "Ali Hassan", email: "ali.hassan@itu.edu", role: "Student", department: "Computer Science", status: "Active" },
-    { id: 1002, name: "Ayesha Khan", email: "ayesha.khan@itu.edu", role: "Teacher", department: "Software Engineering", status: "Active" },
-    { id: 1003, name: "Bilal Ahmed", email: "bilal.ahmed@itu.edu", role: "Student", department: "Artificial Intelligence", status: "Pending" },
-    { id: 1004, name: "Fatima Noor", email: "fatima.noor@itu.edu", role: "Teacher", department: "Data Science", status: "Active" },
-    { id: 1005, name: "Hamza Ali", email: "hamza.ali@itu.edu", role: "Student", department: "Information Technology", status: "Inactive" },
-    { id: 1006, name: "Dr. Saud Ahmad", email: "saud.ahmad@itu.edu", role: "Admin", department: "Finance & Economics", status: "Active" },
-    { id: 1007, name: "Sara Malik", email: "sara.malik@itu.edu", role: "Student", department: "Software Engineering", status: "Active" },
-    { id: 1008, name: "Usman Tariq", email: "usman.tariq@itu.edu", role: "Teacher", department: "Information Technology", status: "Pending" },
-    { id: 1009, name: "Zara Sheikh", email: "zara.sheikh@itu.edu", role: "Student", department: "Data Science", status: "Active" },
-    { id: 1010, name: "Hina Yousuf", email: "hina.yousuf@itu.edu", role: "Teacher", department: "Computer Science", status: "Active" },
-    { id: 1011, name: "Omar Farooq", email: "omar.farooq@itu.edu", role: "Student", department: "Artificial Intelligence", status: "Pending" },
-    { id: 1012, name: "Rabia Farooq", email: "rabia.farooq@itu.edu", role: "Teacher", department: "Information Technology", status: "Active" },
-    { id: 1013, name: "Mariam Yasin", email: "mariam.yasin@itu.edu", role: "Teacher", department: "Artificial Intelligence", status: "Active" },
-    { id: 1014, name: "Talha Iqbal", email: "talha.iqbal@itu.edu", role: "Student", department: "Computer Science", status: "Inactive" },
-    { id: 1015, name: "Kamran Sheikh", email: "kamran.sheikh@itu.edu", role: "Teacher", department: "Software Engineering", status: "Active" },
-    { id: 1016, name: "Areeba Malik", email: "areeba.malik@itu.edu", role: "Admin", department: "Registrar's Office", status: "Active" },
-    { id: 1017, name: "Taha Raza", email: "taha.raza@itu.edu", role: "Student", department: "Software Engineering", status: "Active" },
-    { id: 1018, name: "Mahnoor Iqbal", email: "mahnoor.iqbal@itu.edu", role: "Student", department: "Data Science", status: "Pending" },
-];
-
-const roleTabs = ["All", "Student", "Teacher", "Admin"];
+const PAGE_SIZE = 10;
 
 export default function Users() {
-    const [activeTab, setActiveTab] = useState("All");
     const [query, setQuery] = useState("");
-    const debouncedQuery = useDebounce(query, 700);
+    const [page, setPage] = useState(1);
+    const debouncedQuery = useDebounce(query, 500);
 
-    const filtered = users.filter((u) => {
-        const matchesRole = activeTab === "All" || u.role === activeTab;
-        const matchesQuery =
-            u.name.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
-            u.email.toLowerCase().includes(debouncedQuery.toLowerCase());
-        return matchesRole && matchesQuery;
+    // Changing debouncedQuery changes the query key inside useUsersQuery,
+    // so TanStack Query refetches automatically — no manual effect needed.
+    const { data, isLoading, isError, error, isFetching } = useUsersQuery({
+        page,
+        limit: PAGE_SIZE,
+        search: debouncedQuery,
     });
+
+    function handleSearchChange(value) {
+        setQuery(value);
+        setPage(1);
+    }
+
+    // Confirmed shape: the list lives at data.data, and each user has
+    // firstName/lastName (not a single `name` field). Pagination totals
+    // are still a guess — data had a second top-level key I couldn't
+    // fully see; adjust total/totalPages once you confirm it.
+    const users = data?.data ?? [];
+    const total = data?.total ?? data?.meta?.total ?? users.length;
+    const totalPages = data?.totalPages ?? data?.meta?.totalPages ?? Math.max(1, Math.ceil(total / PAGE_SIZE));
 
     return (
         <div className="space-y-6">
@@ -56,82 +47,112 @@ export default function Users() {
                 </button>
             </div>
 
-            <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-                <StatCard title="Total Users" value={users.length} subtitle="All accounts" icon={FaUsers} color="rust" />
-                <StatCard title="Students" value={users.filter((u) => u.role === "Student").length} subtitle="Enrolled accounts" icon={FaUserGraduate} color="blue" />
-                <StatCard title="Teachers" value={users.filter((u) => u.role === "Teacher").length} subtitle="Active faculty" icon={FaChalkboardTeacher} color="amber" />
-                <StatCard title="Admins" value={users.filter((u) => u.role === "Admin").length} subtitle="System administrators" icon={FaUserShield} color="teal" />
+            <section className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                <StatCard title="Total Users" value={isLoading ? "—" : total} subtitle="Reported by API" icon={FaUsers} color="rust" />
+                <StatCard title="Current Page" value={`${page} / ${totalPages}`} subtitle={`${PAGE_SIZE} per page`} icon={FaUsers} color="blue" />
+                <StatCard title="Loaded Now" value={users.length} subtitle="Rows on this page" icon={FaUsers} color="amber" />
             </section>
 
-            <section className="bg-(--bg-card) border border-(--border-color) rounded-xl shadow-sm p-5">
+            <section className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl shadow-sm p-5">
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
-                    <div className="flex gap-2 flex-wrap">
-                        {roleTabs.map((tab) => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                                    activeTab === tab
-                                        ? "bg-(--accent) text-white"
-                                        : "bg-(--bg-subtle) text-(--text-secondary) hover:text-(--text-primary)"
-                                }`}
-                            >
-                                {tab}
-                            </button>
-                        ))}
-                    </div>
+                    <h2 className="text-xl font-semibold text-[var(--text-primary)]">
+                        All Users
+                        {isFetching && !isLoading && (
+                            <span className="text-xs font-normal text-[var(--text-muted)] ml-2">updating…</span>
+                        )}
+                    </h2>
 
                     <div className="relative">
-                        <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-sm" />
+                        <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-sm" />
                         <input
                             value={query}
-                            onChange={(e) => setQuery(e.target.value)}
+                            onChange={(e) => handleSearchChange(e.target.value)}
                             placeholder="Search by name or email..."
-                            className="pl-9 pr-4 py-2.5 rounded-lg border border-(--border-color) bg-(--bg-app)
-                            text-(--text-primary) text-sm outline-none focus:ring-2 focus:ring-(--accent) w-full md:w-72"
+                            className="pl-9 pr-4 py-2.5 rounded-lg border border-[var(--border-color)] bg-[var(--bg-app)]
+                            text-[var(--text-primary)] text-sm outline-none focus:ring-2 focus:ring-[var(--accent)] w-full md:w-72"
                         />
                     </div>
                 </div>
 
-                <div className="overflow-x-auto">
-                    <table className="min-w-full">
-                        <thead>
-                            <tr className="border-b border-(--border-color) text-left text-(--text-secondary) text-sm">
-                                <th className="py-3 px-4">ID</th>
-                                <th className="py-3 px-4">Name</th>
-                                <th className="py-3 px-4">Email</th>
-                                <th className="py-3 px-4">Role</th>
-                                <th className="py-3 px-4">Department</th>
-                                <th className="py-3 px-4">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filtered.map((u) => (
-                                <tr
-                                    key={u.id}
-                                    className="border-b border-(--border-color) hover:bg-(--bg-subtle) transition text-(--text-primary)"
-                                >
-                                    <td className="px-4 py-4">{u.id}</td>
-                                    <td className="px-4 py-4 font-medium">{u.name}</td>
-                                    <td className="px-4 py-4 text-(--text-secondary)">{u.email}</td>
-                                    <td className="px-4 py-4">{u.role}</td>
-                                    <td className="px-4 py-4">{u.department}</td>
-                                    <td className="px-4 py-4">
-                                        <StatusBadge status={u.status} />
-                                    </td>
-                                </tr>
-                            ))}
+                {isLoading && (
+                    <div className="py-16 text-center text-[var(--text-muted)] text-sm">Loading users…</div>
+                )}
 
-                            {filtered.length === 0 && (
-                                <tr>
-                                    <td colSpan={6} className="px-4 py-10 text-center text-(--text-muted)">
-                                        No users match your search.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+                {isError && (
+                    <div className="py-10 text-center text-red-500 text-sm">
+                        Couldn't load users: {error?.message ?? "unknown error"}.
+                        {" "}Check that a valid token is in <code>localStorage.token</code>.
+                    </div>
+                )}
+
+                {!isLoading && !isError && (
+                    <>
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full">
+                                <thead>
+                                    <tr className="border-b border-[var(--border-color)] text-left text-[var(--text-secondary)] text-sm">
+                                        <th className="py-3 px-4">Name</th>
+                                        <th className="py-3 px-4">Email</th>
+                                        <th className="py-3 px-4">Phone</th>
+                                        <th className="py-3 px-4">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {users.map((u, i) => (
+                                        <tr
+                                            key={u.id ?? u._id ?? i}
+                                            className="border-b border-[var(--border-color)] hover:bg-[var(--bg-subtle)] transition text-[var(--text-primary)]"
+                                        >
+                                            <td className="px-4 py-4 font-medium">
+                                                {[u.firstName, u.lastName].filter(Boolean).join(" ") || "—"}
+                                            </td>
+                                            <td className="px-4 py-4 text-[var(--text-secondary)]">{u.email ?? "—"}</td>
+                                            <td className="px-4 py-4 text-[var(--text-secondary)]">{u.phone || "—"}</td>
+                                            <td className="px-4 py-4">
+                                                <StatusBadge status={u.status ?? "Active"} />
+                                            </td>
+                                        </tr>
+                                    ))}
+
+                                    {users.length === 0 && (
+                                        <tr>
+                                            <td colSpan={4} className="px-4 py-10 text-center text-[var(--text-muted)]">
+                                                No users match your search.
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div className="flex items-center justify-between mt-5">
+                            <button
+                                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                                disabled={page <= 1}
+                                className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[var(--border-color)]
+                                text-sm text-[var(--text-secondary)] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[var(--bg-subtle)] transition"
+                            >
+                                <FaChevronLeft size={11} /> Prev
+                            </button>
+                            <span className="text-sm text-[var(--text-muted)]">Page {page} of {totalPages}</span>
+                            <button
+                                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                                disabled={page >= totalPages}
+                                className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[var(--border-color)]
+                                text-sm text-[var(--text-secondary)] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[var(--bg-subtle)] transition"
+                            >
+                                Next <FaChevronRight size={11} />
+                            </button>
+                        </div>
+
+                        <details className="mt-6 text-xs text-[var(--text-muted)]">
+                            <summary className="cursor-pointer select-none">Raw API response (debug)</summary>
+                            <pre className="mt-2 p-3 rounded-lg bg-[var(--bg-app)] border border-[var(--border-color)] overflow-x-auto">
+                                {JSON.stringify(data, null, 2)}
+                            </pre>
+                        </details>
+                    </>
+                )}
             </section>
         </div>
     );

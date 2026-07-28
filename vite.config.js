@@ -9,4 +9,13 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] }),
     tailwindcss(),
   ],
+  server: {
+    proxy: {
+      "/api": {
+        target: "https://api-mpm.stackup.solutions",
+        changeOrigin: true,
+        secure: true,
+      },
+    },
+  },
 })

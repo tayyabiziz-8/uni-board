@@ -28,3 +28,6 @@ npm run dev
 ```
 
 and you're good to go.
+
+
+Note: in api.js, the token is placed manually.

@@ -2,7 +2,23 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import users from "../../data/users";
 import { useUserContext } from "../../context/UserProvider";
+import { loginAdmin } from "../../api/api";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
+
+async function tryStoreAdminToken(username, password) {
+    try {
+        const token = await loginAdmin(username, password);
+        if (token) {
+            localStorage.setItem("token", token);
+            return true;
+        }
+        console.warn("Admin login succeeded but no token was found in the response.");
+        return false;
+    } catch (err) {
+        console.warn("Live API admin login failed:", err.message);
+        return false;
+    }
+}
 
 export default function LoginForm() {
     const navigate = useNavigate();
@@ -12,20 +28,37 @@ export default function LoginForm() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
 
-    function handleLogin(e) {
+    async function handleLogin(e) {
         e.preventDefault();
+        setError("");
 
+        // 1. Local demo accounts (student/123, teacher/123, admin/123) —
         const foundUser = users.find(
             (user) => user.username === username && user.password === password
         );
 
-        if (!foundUser) {
-            setError("Invalid Credentials");
+        if (foundUser) {
+            login(foundUser);
+
+            if (foundUser.role === "admin") {
+                await tryStoreAdminToken(username, password);
+            }
+
+            navigate(`/${foundUser.role}`);
             return;
         }
 
-        login(foundUser);
-        navigate(`/${foundUser.role}`);
+        // 2. Not a local demo account, try the same credentials against
+        //    the real Many Parts admin login.
+        const gotToken = await tryStoreAdminToken(username, password);
+
+        if (gotToken) {
+            login({ username, role: "admin" });
+            navigate("/admin");
+            return;
+        }
+
+        setError("Invalid Credentials");
     }
 
     return (
@@ -78,9 +111,9 @@ export default function LoginForm() {
 
             <div className="text-xs text-slate-500 border-t border-[#232c44] pt-4 mt-1 space-y-1">
                 <p className="text-slate-400 font-medium mb-1">Demo credentials</p>
-                <p>student / 123 - WIP</p>
-                <p>teacher / 123 - WIP</p>
-                <p>admin / 123 - this works</p>
+                <p>student / 123</p>
+                <p>teacher / 123</p>
+                <p>admin / 123</p>
             </div>
         </form>
     );
