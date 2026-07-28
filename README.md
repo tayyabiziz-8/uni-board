@@ -8,6 +8,7 @@ A university dashboard *Template* with 3 different users
 Currently, admin dashboard is the most developed with
 - Multiple Pages
 - Graphs and Charts (made on dummy data)
+- Users fetched through api
 
 ## Tech Stack & Libraries
 
@@ -28,6 +29,3 @@ npm run dev
 ```
 
 and you're good to go.
-
-
-Note: in api.js, the token is placed manually.

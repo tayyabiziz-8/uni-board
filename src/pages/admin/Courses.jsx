@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FaBook, FaLayerGroup, FaClock, FaUserGraduate, FaPlus, FaSearch } from "react-icons/fa";
 import StatCard from "../../components/ui/StatCard";
 import StatusBadge from "../../components/ui/StatusBadge";
+import Modal from "../../components/ui/Modal";
+import AddCourseForm from "../../components/forms/AddCourseForm";
 import useDebounce from "../../hooks/useDebounce";
 
 const courses = [
@@ -23,19 +25,29 @@ const courses = [
 ];
 
 export default function Courses() {
+    const [courseList, setCourseList] = useState(courses);
     const [query, setQuery] = useState("");
-    const debouncedQuery = useDebounce(query, 700);
+    const [modalOpen, setModalOpen] = useState(false);
+    const debouncedQuery = useDebounce(query, 500);
 
-    const filtered = courses.filter(
+    function handleAddCourse(values) {
+        setCourseList((prev) => [
+            { ...values, enrolled: 0, status: "Active" },
+            ...prev,
+        ]);
+        setModalOpen(false);
+    }
+
+    const filtered = courseList.filter(
         (c) =>
             c.title.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
             c.code.toLowerCase().includes(debouncedQuery.toLowerCase()) ||
             c.instructor.toLowerCase().includes(debouncedQuery.toLowerCase())
     );
 
-    const totalSeats = courses.reduce((sum, c) => sum + c.capacity, 0);
-    const totalEnrolled = courses.reduce((sum, c) => sum + c.enrolled, 0);
-    const avgCredits = (courses.reduce((sum, c) => sum + c.credits, 0) / courses.length).toFixed(1);
+    const totalSeats = courseList.reduce((sum, c) => sum + c.capacity, 0);
+    const totalEnrolled = courseList.reduce((sum, c) => sum + c.enrolled, 0);
+    const avgCredits = (courseList.reduce((sum, c) => sum + c.credits, 0) / courseList.length).toFixed(1);
 
     return (
         <div className="space-y-6">
@@ -44,15 +56,18 @@ export default function Courses() {
                     <h1 className="text-3xl font-bold text-(--text-primary)">Courses</h1>
                     <p className="text-(--text-secondary) mt-1">Manage course offerings across all departments.</p>
                 </div>
-                <button className="flex items-center gap-2 bg-(--accent) hover:bg-(--accent-hover) text-white px-4 py-2.5 rounded-lg transition text-sm font-medium shrink-0">
+                <button
+                    onClick={() => setModalOpen(true)}
+                    className="flex items-center gap-2 bg-(--accent) hover:bg-(--accent-hover) text-white px-4 py-2.5 rounded-lg transition text-sm font-medium shrink-0"
+                >
                     <FaPlus size={13} />
                     Add Course
                 </button>
             </div>
 
             <section className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
-                <StatCard title="Total Courses" value={courses.length} subtitle="Offered this semester" icon={FaBook} color="rust" />
-                <StatCard title="Active Courses" value={courses.filter((c) => c.status === "Active").length} subtitle="Currently running" icon={FaLayerGroup} color="green" />
+                <StatCard title="Total Courses" value={courseList.length} subtitle="Offered this semester" icon={FaBook} color="rust" />
+                <StatCard title="Active Courses" value={courseList.filter((c) => c.status === "Active").length} subtitle="Currently running" icon={FaLayerGroup} color="green" />
                 <StatCard title="Avg. Credit Hours" value={avgCredits} subtitle="Per course" icon={FaClock} color="blue" />
                 <StatCard title="Enrolled Seats" value={`${totalEnrolled}/${totalSeats}`} subtitle="Across all courses" icon={FaUserGraduate} color="amber" />
             </section>
@@ -116,6 +131,10 @@ export default function Courses() {
                     </table>
                 </div>
             </section>
+
+            <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Add Course">
+                <AddCourseForm onSubmit={handleAddCourse} onCancel={() => setModalOpen(false)} />
+            </Modal>
         </div>
     );
 }

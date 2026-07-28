@@ -22,7 +22,6 @@ export default function Header({ sidebarOpen, setSidebarOpen, collapsed, setColl
     }, []);
 
     function handleLogout() {
-        localStorage.removeItem("token");
         logout();
         navigate("/login");
     }
@@ -31,7 +30,6 @@ export default function Header({ sidebarOpen, setSidebarOpen, collapsed, setColl
         <header className="fixed top-0 left-0 right-0 h-16 bg-(--bg-card) border-b border-(--border-color) text-(--text-primary) z-50">
             <div className="h-full flex items-center justify-between px-5">
                 <div className="flex items-center gap-4">
-                    
                     <button
                         className="md:hidden text-xl p-1 rounded hover:bg-(--bg-subtle) transition"
                         onClick={() => setSidebarOpen(!sidebarOpen)}

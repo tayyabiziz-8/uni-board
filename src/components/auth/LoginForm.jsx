@@ -5,18 +5,12 @@ import { useUserContext } from "../../context/UserProvider";
 import { loginAdmin } from "../../api/api";
 import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 
-async function tryStoreAdminToken(username, password) {
+async function tryAdminApiLogin(email, password) {
     try {
-        const token = await loginAdmin(username, password);
-        if (token) {
-            localStorage.setItem("token", token);
-            return true;
-        }
-        console.warn("Admin login succeeded but no token was found in the response.");
-        return false;
+        return await loginAdmin(email, password);
     } catch (err) {
         console.warn("Live API admin login failed:", err.message);
-        return false;
+        return null;
     }
 }
 
@@ -32,29 +26,28 @@ export default function LoginForm() {
         e.preventDefault();
         setError("");
 
-        // 1. Local demo accounts (student/123, teacher/123, admin/123) —
+        // 1. Local demo accounts (student/123, teacher/123, admin/123)
         const foundUser = users.find(
             (user) => user.username === username && user.password === password
         );
 
         if (foundUser) {
-            login(foundUser);
-
             if (foundUser.role === "admin") {
-                await tryStoreAdminToken(username, password);
+                const result = await tryAdminApiLogin(username, password);
+                login(foundUser, result?.token);
+            } else {
+                login(foundUser);
             }
 
             navigate(`/${foundUser.role}`);
             return;
         }
 
-        // 2. Not a local demo account, try the same credentials against
-        //    the real Many Parts admin login.
-        const gotToken = await tryStoreAdminToken(username, password);
+        const result = await tryAdminApiLogin(username, password);
 
-        if (gotToken) {
-            login({ username, role: "admin" });
-            navigate("/admin");
+        if (result?.user) {
+            login(result.user, result.token);
+            navigate(`/${result.user.role}`);
             return;
         }
 
@@ -64,12 +57,12 @@ export default function LoginForm() {
     return (
         <form onSubmit={handleLogin} className="flex flex-col gap-5">
             <div>
-                <label className="block text-sm text-slate-300 mb-2">Username</label>
+                <label className="block text-sm text-slate-300 mb-2">Username or Email</label>
                 <div className="relative">
                     <FaUser className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm" />
                     <input
                         type="text"
-                        placeholder="Enter your username"
+                        placeholder="Enter your username or email"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         className="w-full pl-10 pr-4 py-3 rounded-lg bg-[#131a2c] border border-[#232c44] text-white
