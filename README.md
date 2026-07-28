@@ -17,6 +17,9 @@ Currently, admin dashboard is the most developed with
 - Material UI
 - React-router
 - Recharts
+- Sonner
+- Tanstack
+- Formik
 
 ### Commands to run after cloning
 
