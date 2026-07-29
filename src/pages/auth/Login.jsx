@@ -7,9 +7,9 @@ export default function Login() {
                 <div className="w-full max-w-sm mx-auto">
                     <div className="flex items-center gap-3 mb-10">
                         <div className="w-11 h-11 rounded-lg bg-[#c2622d] text-white flex items-center justify-center font-bold text-lg shrink-0">
-                            UP
+                            MP
                         </div>
-                        <span className="text-xl font-bold text-white">University Portal</span>
+                        <span className="text-xl font-bold text-white">Many Parts</span>
                     </div>
                     <h1 className="text-3xl font-bold text-white mb-2">Welcome Back!</h1>
                     <p className="text-slate-400 mb-8">Sign in to access your dashboard and continue your journey.</p>
@@ -23,10 +23,10 @@ export default function Login() {
             >
                 <div className="max-w-md">
                     <h2 className="text-4xl font-bold text-white leading-tight mb-6">
-                        One Portal for All
+                        Revolutionize Your Ministry with Smarter Tools
                     </h2>
                     <p className="text-white/90 text-lg leading-relaxed">
-                        A single, reliable platform built for a university that never stops growing.
+                        Many Parts Ministries has empowered our community to connect, grow, and serve more effectively. The platform is reliable, efficient, and always improving!
                     </p>
                 </div>
             </div>

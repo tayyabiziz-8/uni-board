@@ -8,7 +8,8 @@ import { FaUser, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
 async function tryAdminApiLogin(email, password) {
     try {
         return await loginAdmin(email, password);
-    } catch (err) {
+    }
+    catch (err) {
         console.warn("Live API admin login failed:", err.message);
         return null;
     }
@@ -35,14 +36,14 @@ export default function LoginForm() {
             if (foundUser.role === "admin") {
                 const result = await tryAdminApiLogin(username, password);
                 login(foundUser, result?.token);
-            } else {
+            } 
+            else {
                 login(foundUser);
             }
 
             navigate(`/${foundUser.role}`);
             return;
         }
-
         const result = await tryAdminApiLogin(username, password);
 
         if (result?.user) {
@@ -50,7 +51,6 @@ export default function LoginForm() {
             navigate(`/${result.user.role}`);
             return;
         }
-
         setError("Invalid Credentials");
     }
 
@@ -97,16 +97,16 @@ export default function LoginForm() {
 
             <button
                 type="submit"
-                className="bg-[#c2622d] hover:bg-[#a84f22] text-white font-semibold py-3 rounded-lg transition mt-1"
+                className="bg-[#c2622d] hover:bg-[#a84f22] text-white font-semibold py-2 rounded-lg transition mt-1"
             >
                 Login
             </button>
 
             <div className="text-xs text-slate-500 border-t border-[#232c44] pt-4 mt-1 space-y-1">
                 <p className="text-slate-400 font-medium mb-1">Demo credentials</p>
+                <p>admin / 123 - this works</p>
                 <p>student / 123</p>
                 <p>teacher / 123</p>
-                <p>admin / 123</p>
             </div>
         </form>
     );

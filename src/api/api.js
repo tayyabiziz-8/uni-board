@@ -15,9 +15,8 @@ async function apiFetch(path, params = {}) {
     const res = await fetch(url, { headers: authHeaders() });
 
     if (!res.ok) {
-        throw new Error(`Request to ${path} failed with status ${res.status}`);
+        throw new Error(`Request to ${path} failed with status: ${res.status}`);
     }
-
     return res.json();
 }
 
@@ -39,17 +38,58 @@ export async function loginAdmin(email, password) {
     });
 
     if (!res.ok) {
-        throw new Error(`Admin login failed with status ${res.status}`);
+        throw new Error(`Admin login failed, Status: ${res.status}`);
     }
 
     const result = await res.json();
 
     if (!result?.success) {
-        throw new Error(result?.message ?? "Admin login was not successful");
+        throw new Error(result?.message ?? "Admin login unsuccessful");
     }
 
     return {
         token: result.data.token,
         user: result.data.user,
     };
+}
+
+// --- Admins CRUD ---
+export async function createAdmin(payload)
+{
+    const res = await fetch(`${BASE_URL}/admins`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.message ?? `Failed to create admin (status ${res.status})`);
+    }
+    return res.json();
+}
+
+export async function updateAdmin(id, payload)
+{
+    const res = await fetch(`${BASE_URL}/admins/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.message ?? `Failed to update admin (status ${res.status})`);
+    }
+    return res.json();
+}
+export async function deleteAdmin(id)
+{
+    const res = await fetch(`${BASE_URL}/admins/${id}`, {
+        method: "DELETE",
+        headers: authHeaders(),
+    });
+    if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.message ?? `Failed to delete admin (status: ${res.status})`);
+    }
+    return res.json().catch(() => ({}));
 }

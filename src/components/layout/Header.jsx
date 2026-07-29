@@ -46,7 +46,7 @@ export default function Header({ sidebarOpen, setSidebarOpen, collapsed, setColl
                     </button>
 
                     <NavLink to="/" className="font-semibold text-lg">
-                        University Portal
+                        Many Parts
                     </NavLink>
                 </div>
 

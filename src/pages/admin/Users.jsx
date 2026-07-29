@@ -144,7 +144,7 @@ export default function Users() {
                                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                                 disabled={page >= totalPages}
                                 className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-(--border-color)
-                                text-sm text-(--text-secondary) disabled:opacity-40 disabled:cursor-not-allowed hover:bg-r(--bg-subtle) transition"
+                                text-sm text-(--text-secondary) disabled:opacity-40 disabled:cursor-not-allowed hover:bg-(--bg-subtle) transition"
                             >
                                 Next <FaChevronRight size={11} />
                             </button>
