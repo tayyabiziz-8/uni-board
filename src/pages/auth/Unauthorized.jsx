@@ -12,7 +12,7 @@ export default function Unauthorized() {
 
             <h1 className="text-4xl font-bold text-white mb-3">Access Restricted</h1>
             <p className="text-slate-400 max-w-md mb-8">
-                You don't have permission to view this part of the University Portal. If you think this is a
+                You don't have permission to view this part of the Portal. If you think this is a
                 mistake, contact your system administrator.
             </p>
 

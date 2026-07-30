@@ -17,19 +17,12 @@ import TeacherProfile from "./pages/teacher/Profile";
 
 import AdminDashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users";
-import Settings from "./pages/admin/Settings";
-import TeacherAnalytics from "./pages/admin/TeacherAnalytics";
-import StudentAnalytics from "./pages/admin/StudentAnalytics";
-import ManageReports from "./pages/admin/ManageReports";
-import AdminCourses from "./pages/admin/Courses";
-import Departments from "./pages/admin/Departments";
-import Admissions from "./pages/admin/Admissions";
-import Announcements from "./pages/admin/Announcements";
+import Admins from "./pages/admin/Admins";
+// Enrollments, Organizations, ChatbotAccess, StewardshipRenewal, Coupons,
+// Questions land here as they're built. Not wired yet.
 
 function HomeRedirect() {
-
     const { user } = useUserContext();
-
     if (!user)
         return <Navigate to="/login" replace />;
 
@@ -41,10 +34,10 @@ export default function App() {
     return (
 
         <Routes>
-
             <Route path="/" element={<HomeRedirect />} />
             <Route path="/login" element={<Login />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
+
             <Route element={<BaseLayout />}>
 
                 <Route element={<ProtectedRoute allowedRoles={["student"]} />}>
@@ -69,15 +62,8 @@ export default function App() {
 
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/admin/users" element={<Users />} />
-                    <Route path="/admin/settings" element={<Settings />} />
-                    <Route path="/admin/teachers" element={<TeacherAnalytics />} />
-                    <Route path="/admin/students" element={<StudentAnalytics />} />
-                    <Route path="/admin/reports" element={<ManageReports />} />
-                    <Route path="/admin/courses" element={<AdminCourses />} />
-                    <Route path="/admin/departments" element={<Departments />} />
-                    <Route path="/admin/admissions" element={<Admissions />} />
-                    <Route path="/admin/announcements" element={<Announcements />} />
-
+                    <Route path="/admin/admins" element={<Admins />} />
+                    
                 </Route>
             </Route>
         </Routes>

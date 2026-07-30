@@ -11,7 +11,6 @@ async function apiFetch(path, params = {}) {
     ).toString();
 
     const url = `${BASE_URL}${path}${query ? `?${query}` : ""}`;
-
     const res = await fetch(url, { headers: authHeaders() });
 
     if (!res.ok) {
@@ -36,13 +35,11 @@ export async function loginAdmin(email, password) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
     });
-
     if (!res.ok) {
         throw new Error(`Admin login failed, Status: ${res.status}`);
     }
 
     const result = await res.json();
-
     if (!result?.success) {
         throw new Error(result?.message ?? "Admin login unsuccessful");
     }
@@ -77,7 +74,7 @@ export async function updateAdmin(id, payload)
     });
     if (!res.ok) {
         const body = await res.json().catch(() => null);
-        throw new Error(body?.message ?? `Failed to update admin (status ${res.status})`);
+        throw new Error(body?.message ?? `Failed to update admin (status: ${res.status})`);
     }
     return res.json();
 }

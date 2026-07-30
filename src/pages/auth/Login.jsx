@@ -11,8 +11,10 @@ export default function Login() {
                         </div>
                         <span className="text-xl font-bold text-white">Many Parts</span>
                     </div>
+
                     <h1 className="text-3xl font-bold text-white mb-2">Welcome Back!</h1>
                     <p className="text-slate-400 mb-8">Sign in to access your dashboard and continue your journey.</p>
+
                     <LoginForm />
                 </div>
             </div>
@@ -26,7 +28,8 @@ export default function Login() {
                         Revolutionize Your Ministry with Smarter Tools
                     </h2>
                     <p className="text-white/90 text-lg leading-relaxed">
-                        Many Parts Ministries has empowered our community to connect, grow, and serve more effectively. The platform is reliable, efficient, and always improving!
+                        "Many Parts Ministries has empowered our community to connect, grow, and serve more
+                        effectively. The platform is reliable, efficient, and always improving!"
                     </p>
                 </div>
             </div>

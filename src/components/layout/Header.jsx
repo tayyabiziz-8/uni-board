@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../../context/UserProvider";
 import { FaMoon, FaSun, FaBars, FaChevronDown, FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { useTheme } from "../../context/ThemeProvider";
@@ -27,11 +27,15 @@ export default function Header({ sidebarOpen, setSidebarOpen, collapsed, setColl
     }
 
     return (
-        <header className="fixed top-0 left-0 right-0 h-16 bg-(--bg-card) border-b border-(--border-color) text-(--text-primary) z-50">
+        <header
+            className={`fixed top-0 right-0 left-0 h-16 bg-(--bg-card) border-b border-(--border-color)
+            text-(--text-primary) z-40 transition-all duration-300
+            ${collapsed ? "md:left-20" : "md:left-64"}`}
+        >
             <div className="h-full flex items-center justify-between px-5">
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
                     <button
-                        className="md:hidden text-xl p-1 rounded hover:bg-(--bg-subtle) transition"
+                        className="md:hidden text-xl p-2 rounded-md hover:bg-(--bg-subtle) transition"
                         onClick={() => setSidebarOpen(!sidebarOpen)}
                     >
                         <FaBars />
@@ -44,10 +48,6 @@ export default function Header({ sidebarOpen, setSidebarOpen, collapsed, setColl
                     >
                         <FaBars />
                     </button>
-
-                    <NavLink to="/" className="font-semibold text-lg">
-                        Many Parts
-                    </NavLink>
                 </div>
 
                 <div className="flex items-center gap-3">

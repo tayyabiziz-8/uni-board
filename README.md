@@ -1,14 +1,11 @@
-# University Dashboard
+# Many Parts Dashboard (Clone)
 
-A university dashboard *Template* with 3 different users
-- Teacher
-- Student
-- Admin
+Many parts dashboard with different users (Admin works for now)
 
 Currently, admin dashboard is the most developed with
 - Multiple Pages
-- Graphs and Charts (made on dummy data)
-- Users fetched through api
+- Graphs and Charts
+- Users fetched through many parts API
 
 ## Tech Stack & Libraries
 
@@ -17,11 +14,11 @@ Currently, admin dashboard is the most developed with
 - Material UI
 - React-router
 - Recharts
-- Sonner
 - Tanstack
 - Formik
+- Sonner
 
-### Commands to run after cloning
+### Commands to run after cloning this repo
 
 ```
 npm install

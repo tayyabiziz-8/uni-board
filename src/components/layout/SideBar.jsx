@@ -6,19 +6,16 @@ import {
     FaUser,
     FaUsers,
     FaChartBar,
-    FaChevronLeft,
-    FaChevronRight,
-    FaChalkboardTeacher,
-    FaUserGraduate,
-    FaCog,
-    FaFileAlt,
+    FaTh,
+    FaCalendarAlt,
     FaBuilding,
-    FaUserPlus,
-    FaBullhorn,
+    FaRobot,
+    FaDollarSign,
+    FaBookOpen,
 } from "react-icons/fa";
 import { useUserContext } from "../../context/UserProvider";
 
-export default function Sidebar({ sidebarOpen, setSidebarOpen, collapsed, setCollapsed }) {
+export default function Sidebar({ sidebarOpen, setSidebarOpen, collapsed }) {
     const { user } = useUserContext();
     const role = user?.role;
 
@@ -36,16 +33,15 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, collapsed, setCol
             { to: "/teacher/profile", label: "Profile", icon: FaUser },
         ],
         admin: [
-            { to: "/admin", end: true, label: "Dashboard", icon: FaHome },
-            { to: "/admin/students", label: "Student Analytics", icon: FaUserGraduate },
-            { to: "/admin/teachers", label: "Teacher Analytics", icon: FaChalkboardTeacher },
-            { to: "/admin/courses", label: "Courses", icon: FaBook },
-            { to: "/admin/departments", label: "Departments", icon: FaBuilding },
-            { to: "/admin/admissions", label: "Admissions", icon: FaUserPlus },
-            { to: "/admin/announcements", label: "Announcements", icon: FaBullhorn },
-            { to: "/admin/users", label: "Manage Users", icon: FaUsers },
-            { to: "/admin/reports", label: "Manage Reports", icon: FaFileAlt },
-            { to: "/admin/settings", label: "Settings", icon: FaCog },
+            { to: "/admin", end: true, label: "Dashboard", icon: FaTh },
+            { to: "/admin/enrollments", label: "Enrollments", icon: FaCalendarAlt },
+            { to: "/admin/users", label: "Users", icon: FaUser },
+            { to: "/admin/organizations", label: "Organizations", icon: FaBuilding },
+            { to: "/admin/chatbot-access", label: "Chatbot Access", icon: FaRobot },
+            { to: "/admin/stewardship-renewal", label: "Stewardship Renewal", icon: FaClipboardList },
+            { to: "/admin/admins", label: "Admins", icon: FaUsers },
+            { to: "/admin/coupons", label: "Coupons", icon: FaDollarSign },
+            { to: "/admin/questions", label: "Questions", icon: FaBookOpen },
         ],
     };
 
@@ -69,14 +65,11 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, collapsed, setCol
     return (
         <>
             {sidebarOpen && (
-                <div
-                    className="fixed inset-0 bg-black/50 z-40 md:hidden"
-                    onClick={() => setSidebarOpen(false)}
-                />
+                <div className="fixed inset-0 bg-black/50 z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
             )}
 
             <aside
-                className={`fixed top-16 left-0 h-[calc(100vh-64px)] max-md:h-[calc(100vh-64px)]
+                className={`fixed top-0 left-0 h-screen
                     bg-(--bg-sidebar) border-r border-(--border-color)
                     z-50 flex flex-col transform transition-all duration-300 ease-in-out overflow-x-hidden overflow-y-auto
                     ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
@@ -84,17 +77,18 @@ export default function Sidebar({ sidebarOpen, setSidebarOpen, collapsed, setCol
                     ${collapsed ? "w-20" : "w-64"}
                 `}
             >
-                <div className={`hidden md:flex items-center p-3 ${collapsed ? "justify-center" : "justify-end"}`}>
-                    <button
-                        onClick={() => setCollapsed(!collapsed)}
-                        className="p-2 rounded-md text-(--text-secondary) hover:bg-(--bg-subtle) hover:text-(--text-primary) transition"
-                        title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-                    >
-                        {collapsed ? <FaChevronRight size={14} /> : <FaChevronLeft size={14} />}
-                    </button>
+                <div className={`flex items-center gap-3 px-4 pt-5 pb-4 ${collapsed ? "justify-center px-0" : ""}`}>
+                    <div className="w-10 h-10 rounded-lg bg-(--accent) text-white flex items-center justify-center font-bold text-sm shrink-0">
+                        MP
+                    </div>
+                    {!collapsed && <span className="text-lg font-bold text-(--text-primary)">Many Parts</span>}
                 </div>
 
-                <nav className="flex flex-col gap-1.5 p-3 pt-0">
+                {!collapsed && (
+                    <div className="px-4 pb-2 text-xs font-semibold tracking-wider text-(--text-muted)">MENU</div>
+                )}
+
+                <nav className="flex flex-col gap-1.5 px-3 pb-3">
                     {items.map(({ to, end, label, icon: Icon }) => (
                         <NavLink key={to} to={to} end={end} className={linkClass} onClick={closeSidebar} title={collapsed ? label : undefined}>
                             <Icon className="text-base shrink-0" />
