@@ -8,6 +8,11 @@ import {
     createAdmin,
     updateAdmin,
     deleteAdmin,
+    getStewardshipRenewalAccess,
+    updateStewardshipRenewal,
+    createEnrollment,
+    updateChatbotAccess,
+    createOrganization,
 } from "../api/api";
 
 export function useOrganizations(params = {}) {
@@ -17,10 +22,11 @@ export function useOrganizations(params = {}) {
         placeholderData: keepPreviousData,
     });
 }
-export function useEnrollmentMetrics() {
+export function useEnrollments({ page = 1, limit = 25, search = "" } = {}) {
     return useQuery({
-        queryKey: ["enrollment-metrics"],
-        queryFn: getEnrollments,
+        queryKey: ["enrollments", { page, limit, search }],
+        queryFn: () => getEnrollments({ page, limit, search }),
+        placeholderData: keepPreviousData,
     });
 }
 export function useUsersQuery({ page = 1, limit = 10, search = "" } = {}) {
@@ -62,5 +68,42 @@ export function useDeleteAdmin() {
     return useMutation({
         mutationFn: (id) => deleteAdmin(id),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admins"] }),
+    });
+}
+export function useStewardshipRenewalAccess(params = {}) {
+    return useQuery({
+        queryKey: ["stewardship-renewal-access", params],
+        queryFn: () => getStewardshipRenewalAccess(params),
+    });
+}
+export function useUpdateStewardshipRenewal() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ id, enabled }) => updateStewardshipRenewal(id, enabled),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["stewardship-renewal-access"] }),
+    });
+}
+export function useCreateEnrollment() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: createEnrollment,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["enrollments"] }),
+    });
+}
+export function useUpdateChatbotAccess() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ id, enabled }) => updateChatbotAccess(id, enabled),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["chatbot-access"] });
+            queryClient.invalidateQueries({ queryKey: ["organizations"] });
+        },
+    });
+}
+export function useCreateOrganization() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: createOrganization,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["organizations"] }),
     });
 }

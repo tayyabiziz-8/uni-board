@@ -18,8 +18,11 @@ import TeacherProfile from "./pages/teacher/Profile";
 import AdminDashboard from "./pages/admin/Dashboard";
 import Users from "./pages/admin/Users";
 import Admins from "./pages/admin/Admins";
-// Enrollments, Organizations, ChatbotAccess, StewardshipRenewal, Coupons,
-// Questions land here as they're built. Not wired yet.
+import Enrollments from "./pages/admin/Enrollments";
+import StewardshipRenewal from "./pages/admin/StewardshipRenewal";
+import Organizations from "./pages/admin/Organizations";
+import ChatbotAccess from "./pages/admin/ChatbotAccess";
+// Coupons, Questions land here as they're built. Not wired yet.
 
 function HomeRedirect() {
     const { user } = useUserContext();
@@ -63,7 +66,11 @@ export default function App() {
                     <Route path="/admin" element={<AdminDashboard />} />
                     <Route path="/admin/users" element={<Users />} />
                     <Route path="/admin/admins" element={<Admins />} />
-                    
+                    <Route path="/admin/enrollments" element={<Enrollments />} />
+                    <Route path="/admin/stewardship-renewal" element={<StewardshipRenewal />} />
+                    <Route path="/admin/organizations" element={<Organizations />} />
+                    <Route path="/admin/chatbot-access" element={<ChatbotAccess />} />
+
                 </Route>
             </Route>
         </Routes>
