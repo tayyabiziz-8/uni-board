@@ -22,7 +22,8 @@ import Enrollments from "./pages/admin/Enrollments";
 import StewardshipRenewal from "./pages/admin/StewardshipRenewal";
 import Organizations from "./pages/admin/Organizations";
 import ChatbotAccess from "./pages/admin/ChatbotAccess";
-// Coupons, Questions land here as they're built. Not wired yet.
+import Coupons from "./pages/admin/Coupons"
+import Questions from "./pages/admin/Questions";
 
 function HomeRedirect() {
     const { user } = useUserContext();
@@ -70,6 +71,8 @@ export default function App() {
                     <Route path="/admin/stewardship-renewal" element={<StewardshipRenewal />} />
                     <Route path="/admin/organizations" element={<Organizations />} />
                     <Route path="/admin/chatbot-access" element={<ChatbotAccess />} />
+                    <Route path="/admin/coupons" element={<Coupons />} />
+                    <Route path="/admin/questions" element={<Questions />} />
 
                 </Route>
             </Route>

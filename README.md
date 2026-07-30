@@ -29,3 +29,5 @@ npm run dev
 ```
 
 and you're good to go.
+
+Note: Some files might have been overriden(new file/logic used) and are now useless.

@@ -149,3 +149,41 @@ export async function createOrganization(payload) {
     }
     return res.json();
 }
+
+export const getQuestions = (params) => apiFetch("/questions", params);
+
+export async function createQuestion(payload) {
+    const res = await fetch(`${BASE_URL}/questions`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.message ?? `Failed to create question (status ${res.status})`);
+    }
+    return res.json();
+}
+export async function updateQuestion(id, payload) {
+    const res = await fetch(`${BASE_URL}/questions/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", ...authHeaders() },
+        body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.message ?? `Failed to update question (status ${res.status})`);
+    }
+    return res.json();
+}
+export async function deleteQuestion(id) {
+    const res = await fetch(`${BASE_URL}/questions/${id}`, {
+        method: "DELETE",
+        headers: authHeaders(),
+    });
+    if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.message ?? `Failed to delete question (status ${res.status})`);
+    }
+    return res.json().catch(() => ({}));
+}

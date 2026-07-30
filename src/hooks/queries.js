@@ -13,6 +13,10 @@ import {
     createEnrollment,
     updateChatbotAccess,
     createOrganization,
+    getQuestions,
+    createQuestion,
+    updateQuestion,
+    deleteQuestion,
 } from "../api/api";
 
 export function useOrganizations(params = {}) {
@@ -105,5 +109,33 @@ export function useCreateOrganization() {
     return useMutation({
         mutationFn: createOrganization,
         onSuccess: () => queryClient.invalidateQueries({ queryKey: ["organizations"] }),
+    });
+}
+export function useQuestions(params = {}) {
+    return useQuery({
+        queryKey: ["questions", params],
+        queryFn: () => getQuestions(params),
+        placeholderData: keepPreviousData,
+    });
+}
+export function useCreateQuestion() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: createQuestion,
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
+    });
+}
+export function useUpdateQuestion() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: ({ id, payload }) => updateQuestion(id, payload),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
+    });
+}
+export function useDeleteQuestion() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: (id) => deleteQuestion(id),
+        onSuccess: () => queryClient.invalidateQueries({ queryKey: ["questions"] }),
     });
 }

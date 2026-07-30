@@ -38,13 +38,13 @@ export default function GaugeChart({ value = 0 }) {
                     strokeDasharray={`${clamped * 100} 100`}
                 />
 
-                <text x={cx} y={cy - r - 13} textAnchor="middle" className="fill-(--text-muted) text-[13px]">
+                <text x={cx} y={cy - r + 6} textAnchor="middle" className="font-bold fill-(--text-muted) text-[16px]">
                     0.5
                 </text>
-                <text x={cx - r} y={cy + 24} textAnchor="middle" className="fill-(--text-muted) text-[13px]">
+                <text x={cx - r} y={cy + 26} textAnchor="middle" className="font-semibold fill-(--text-muted) text-[16px]">
                     0
                 </text>
-                <text x={cx + r} y={cy + 24} textAnchor="middle" className="fill-(--text-muted) text-[13px]">
+                <text x={cx + r} y={cy + 26} textAnchor="middle" className="font-semibold fill-(--text-muted) text-[16px]">
                     1.0
                 </text>
 
