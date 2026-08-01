@@ -102,24 +102,24 @@ export default function Questions() {
     return (
         <div className="space-y-6">
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                <h1 className="text-3xl font-bold text-[var(--text-primary)]">Questions</h1>
+                <h1 className="text-3xl font-bold text-(--text-primary)">Questions</h1>
 
                 <div className="flex flex-wrap gap-3">
                     <div className="relative">
-                        <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-sm" />
+                        <FaSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-(--text-muted) text-sm" />
                         <input
                             value={query}
                             onChange={(e) => handleSearchChange(e.target.value)}
                             placeholder="Search question text..."
-                            className="pl-9 pr-4 py-2.5 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)]
-                            text-[var(--text-primary)] text-sm outline-none focus:ring-2 focus:ring-[var(--accent)] w-full sm:w-64"
+                            className="pl-9 pr-4 py-2.5 rounded-lg border border-(--border-color) bg-(--bg-card)
+                            text-(--text-primary) text-sm outline-none focus:ring-2 focus:ring-(--accent) w-full sm:w-64"
                         />
                     </div>
 
                     <select
                         value={ageFilter}
                         onChange={(e) => setAgeFilter(e.target.value)}
-                        className="px-3 py-2.5 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] text-sm outline-none focus:ring-2 focus:ring-[var(--accent)]"
+                        className="px-3 py-2.5 rounded-lg border border-(--border-color) bg-(--bg-card) text-(--text-primary) text-sm outline-none focus:ring-2 focus:ring-(--accent)"
                     >
                         <option value="all">All Ages</option>
                         {ageOptions.map((a) => (
@@ -130,7 +130,7 @@ export default function Questions() {
                     <select
                         value={charismFilter}
                         onChange={(e) => setCharismFilter(e.target.value)}
-                        className="px-3 py-2.5 rounded-lg border border-[var(--border-color)] bg-[var(--bg-card)] text-[var(--text-primary)] text-sm outline-none focus:ring-2 focus:ring-[var(--accent)]"
+                        className="px-3 py-2.5 rounded-lg border border-(--border-color) bg-(--bg-card) text-(--text-primary) text-sm outline-none focus:ring-2 focus:ring-(--accent)"
                     >
                         <option value="all">All Charisms</option>
                         {charismOptions.map((c) => (
@@ -140,7 +140,7 @@ export default function Questions() {
 
                     <button
                         onClick={handleRefresh}
-                        className="flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-4 py-2.5 rounded-lg transition text-sm font-medium"
+                        className="flex items-center gap-2 bg-(--accent) hover:bg-(--accent-hover) text-white px-4 py-2.5 rounded-lg transition text-sm font-medium"
                     >
                         <FaSync size={13} className={isFetching ? "animate-spin" : ""} /> Refresh
                     </button>
@@ -149,13 +149,13 @@ export default function Questions() {
 
             <button
                 onClick={openAddModal}
-                className="flex items-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-4 py-2.5 rounded-lg transition text-sm font-medium w-fit"
+                className="flex items-center gap-2 bg-(--accent) hover:bg-(--accent-hover) text-white px-4 py-2.5 rounded-lg transition text-sm font-medium w-fit"
             >
                 <FaPlus size={13} /> Add Question
             </button>
 
-            <section className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl shadow-sm p-5">
-                {isLoading && <div className="py-16 text-center text-[var(--text-muted)] text-sm">Loading questions…</div>}
+            <section className="bg-(--bg-card) border border-(--border-color) rounded-xl shadow-sm p-5">
+                {isLoading && <div className="py-16 text-center text-(--text-muted) text-sm">Loading questions…</div>}
 
                 {isError && (
                     <div className="py-10 text-center text-red-500 text-sm">
@@ -168,7 +168,7 @@ export default function Questions() {
                         <div className="overflow-x-auto">
                             <table className="min-w-full">
                                 <thead>
-                                    <tr className="border-b border-[var(--border-color)] text-left text-[var(--text-secondary)] text-sm">
+                                    <tr className="border-b border-(--border-color) text-left text-(--text-secondary) text-sm">
                                         <th className="py-3 px-4">ID</th>
                                         <th className="py-3 px-4">Question</th>
                                         <th className="py-3 px-4">Age Group</th>
@@ -182,7 +182,7 @@ export default function Questions() {
                                     {filtered.map((q) => (
                                         <tr
                                             key={q.id}
-                                            className="border-b border-[var(--border-color)] hover:bg-[var(--bg-subtle)] transition text-[var(--text-primary)] align-top"
+                                            className="border-b border-(--border-color) hover:bg-(--bg-subtle) transition text-(--text-primary) align-top"
                                         >
                                             <td className="px-4 py-4">{q.id}</td>
                                             <td className="px-4 py-4 max-w-md">{q.question}</td>
@@ -196,7 +196,7 @@ export default function Questions() {
                                                 <div className="flex gap-2">
                                                     <button
                                                         onClick={() => openEditModal(q)}
-                                                        className="p-2 rounded-md bg-[var(--bg-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition"
+                                                        className="p-2 rounded-md bg-(--bg-subtle) text-(--text-secondary) hover:text-(--text-primary) transition"
                                                         title="Edit"
                                                     >
                                                         <FaEdit size={13} />
@@ -215,7 +215,7 @@ export default function Questions() {
 
                                     {filtered.length === 0 && (
                                         <tr>
-                                            <td colSpan={7} className="px-4 py-10 text-center text-[var(--text-muted)]">
+                                            <td colSpan={7} className="px-4 py-10 text-center text-(--text-muted)">
                                                 No questions match your filters.
                                             </td>
                                         </tr>
@@ -228,17 +228,17 @@ export default function Questions() {
                             <button
                                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                                 disabled={page <= 1}
-                                className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[var(--border-color)]
-                                text-sm text-[var(--text-secondary)] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[var(--bg-subtle)] transition"
+                                className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-(--border-color)
+                                text-sm text-(--text-secondary) disabled:opacity-40 disabled:cursor-not-allowed hover:bg-(--bg-subtle) transition"
                             >
                                 <FaChevronLeft size={11} /> Prev
                             </button>
-                            <span className="text-sm text-[var(--text-muted)]">Page {page} of {totalPages}</span>
+                            <span className="text-sm text-(--text-muted)">Page {page} of {totalPages}</span>
                             <button
                                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                                 disabled={page >= totalPages}
-                                className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-[var(--border-color)]
-                                text-sm text-[var(--text-secondary)] disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[var(--bg-subtle)] transition"
+                                className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-(--border-color)
+                                text-sm text-(--text-secondary) disabled:opacity-40 disabled:cursor-not-allowed hover:bg-(--bg-subtle) transition"
                             >
                                 Next <FaChevronRight size={11} />
                             </button>

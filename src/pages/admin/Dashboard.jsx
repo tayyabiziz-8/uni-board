@@ -1,9 +1,10 @@
 import { toast } from "sonner";
-import { FaClock, FaCheckCircle, FaUsers, FaTachometerAlt, FaChartBar, FaFilter, FaDownload, FaSync } from "react-icons/fa";
+import { FaClock, FaCheckCircle, FaUsers, FaTachometerAlt, FaChartBar, FaFilter, FaDownload, FaSync, FaBookOpen } from "react-icons/fa";
 import StatCard from "../../components/ui/StatCard";
 import ChartCard from "../../components/ui/ChartCard";
 import GaugeChart from "../../components/charts/GaugeChart";
 import QuotientDistributionChart from "../../components/charts/QuotientDistributionChart";
+import CharismDistributionChart from "../../components/charts/CharismDistributionChart";
 import { useEnrollments } from "../../hooks/queries";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -25,17 +26,17 @@ export default function Dashboard() {
     return (
         <div className="space-y-6">
             <div>
-                <h1 className="text-3xl font-bold text-(--text-primary)">Charism Assessment Dashboard</h1>
-                <p className="text-(--text-secondary) mt-1">Track spiritual gifts and charisms across your organization</p>
+                <h1 className="text-3xl font-bold text-[var(--text-primary)]">Charism Assessment Dashboard</h1>
+                <p className="text-[var(--text-secondary)] mt-1">Track spiritual gifts and charisms across your organization</p>
             </div>
 
-            <section className="bg-(--bg-card) border border-(--border-color) rounded-xl shadow-sm p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <section className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl shadow-sm p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div className="flex items-center gap-3">
-                    <FaFilter className="text-(--text-secondary)" />
-                    <span className="text-sm font-medium text-(--text-primary)">Filters:</span>
+                    <FaFilter className="text-[var(--text-secondary)]" />
+                    <span className="text-sm font-medium text-[var(--text-primary)]">Filters:</span>
                     <select
-                        className="px-3 py-2 rounded-lg border border-(--border-color) bg-(--bg-app)
-                        text-(--text-primary) text-sm outline-none focus:ring-2 focus:ring-(--accent)"
+                        className="px-3 py-2 rounded-lg border border-[var(--border-color)] bg-[var(--bg-app)]
+                        text-[var(--text-primary)] text-sm outline-none focus:ring-2 focus:ring-[var(--accent)]"
                         defaultValue="Organizations"
                     >
                         <option>Organizations</option>
@@ -45,7 +46,7 @@ export default function Dashboard() {
                 <div className="flex gap-3">
                     <button
                         onClick={handleExport}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-(--accent-soft) text-(--accent-soft-text)
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent-soft)] text-[var(--accent-soft-text)]
                         hover:opacity-80 transition text-sm font-medium"
                     >
                         <FaDownload size={13} />
@@ -53,7 +54,7 @@ export default function Dashboard() {
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-(--accent) hover:bg-(--accent-hover)
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent)] hover:bg-[var(--accent-hover)]
                         text-white transition text-sm font-medium"
                     >
                         <FaSync size={13} className={isFetching ? "animate-spin" : ""} />
@@ -90,10 +91,15 @@ export default function Dashboard() {
                 <ChartCard title="Identity Quotient Gauge" icon={FaTachometerAlt}>
                     <GaugeChart value={0.69} />
                 </ChartCard>
+
                 <ChartCard title="Identity Quotient Distribution" icon={FaChartBar}>
                     <QuotientDistributionChart />
                 </ChartCard>
             </section>
+
+            <ChartCard title="Charism Distribution Analysis" icon={FaBookOpen}>
+                <CharismDistributionChart />
+            </ChartCard>
         </div>
     );
 }
